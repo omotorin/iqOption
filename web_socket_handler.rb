@@ -23,12 +23,12 @@ class WebSocketHandler
           json = JSON.parse event.data
           name = json['name']
           method(name).call(json['msg'])
-        rescue
+        rescue NameError
           msg = json['msg']
           message = msg['message'] if msg.is_a?(Hash)
           puts name + ': ' + message[0].to_s if message
           puts name + ': ' + msg.to_s unless message
-          raise 'No method: '+name
+          #raise e,'No method: '+name
         end
       end
 
