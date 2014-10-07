@@ -2,13 +2,18 @@ require 'net/http'
 require 'net/https'
 require 'json'
 
-#OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-
 class Login
   def self.auth(email, password)
     uri = URI('https://iqoption.com/api/login')
     res = post_form(uri, 'email' => email, 'password' => password)
-    res.body
+
+    msg = JSON.parse(res.body)
+
+    raise 'Authorization error: ' + msg['message'].join('\n') unless msg['isSuccessful']
+
+    cookie = res['set-cookie'].to_s
+    /ssid=(?<ssid>\w+);/ =~ cookie
+    ssid
   end
 
   private
