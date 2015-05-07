@@ -19,7 +19,7 @@ class IQApp
   public
   def run
     auth = AuthRequest.new
-    auth.perfom('oleg.motorin@gmail.com', 'Mkzmkz12')
+    auth.perfom('', '') #email, password
     connect
   end
 
